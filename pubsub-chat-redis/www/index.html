@@ -19,7 +19,6 @@
   )
   ws.onmessage = async (message) => {
     const msgDiv = document.createElement('div');
-    // msgDiv.innerHTML = await message.data.text();
     msgDiv.innerHTML = message.data;
     document.getElementById("messages").appendChild(msgDiv);
   }

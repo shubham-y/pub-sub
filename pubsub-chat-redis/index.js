@@ -15,23 +15,18 @@ const wss = new WebSocketServer({ server });
 wss.on("connection", client => {
   console.log("Client connected");
   client.on("message", msg => {
-    console.log(`Message: ${msg}`);
-    // broadcast(msg);
     redisPub.publish("channel_messages", msg)
   });
 })
 
 redisSub.subscribe("channel_messages");
 
-// function broadcast(msg) {
 redisSub.on("message", (channel, msg) => {
   for( const client of wss.clients){
-    console.log(msg);
     if(client.readyState === ws.OPEN) {
       client.send(msg);
     }
   }
 });
-// }
 
 server.listen(process.argv[2] || 8080);
